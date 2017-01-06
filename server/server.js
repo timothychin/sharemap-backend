@@ -94,7 +94,7 @@ app.get('/api/users/:userID', function(req, res) {
 });
 
 // Creates a new User
-app.post('/api/users', function(req, res) {app.post('/api/users', function(req, res) {
+app.post('/api/users', function(req, res) {
   let firstName = req.body.firstName;
   let lastName = req.body.lastName;
   let email = req.body.email || 'No email';
@@ -273,16 +273,13 @@ app.delete('/api/users/:userID/pins/:pinID', function(req, res) {
 // Updates a pin description
 app.put('/api/users/:userID/pins/:pinID', function(req, res) {
   let pinID = req.params.pinID;
-  let newDesc = req.body.description;
+  let newDesc = req.body.param.description;
 
   session
-    .run('MATCH (a {id: {pinIDParam} })\
-      SET a.description = {newDescParam}\
-      RETURN a',
-    {
-      pinIDParam: pinID,
-      newDescParam: newDesc
-    })
+    .run('MATCH (a {id: {pinID} })\
+      SET a.description = {newDesc}\
+      RETURN a'                        
+    )
     .then(result => {
       res.status(200).send(result);
       session.close();
@@ -297,7 +294,3 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
 });
 
 exports.app = app;
-
-
-
-
