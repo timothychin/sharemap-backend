@@ -545,6 +545,7 @@ app.post('/api/users/:userID/pins', function(req, res) {
   let createdAt = JSON.stringify(new Date());
   let userID = req.params.userID;
   let category = req.body.category;
+  let likes = 0;
 
   session
     .run('MATCH (n:User {id: {userIDParam}})\
@@ -565,7 +566,8 @@ app.post('/api/users/:userID/pins', function(req, res) {
       descriptionParam: description,
       categoryParam: category,
       createdAtParam: createdAt,
-      userIDParam: userID
+      userIDParam: userID,
+      likesParam = likes
     })
     .then(result => {
       session
@@ -602,6 +604,7 @@ app.delete('/api/users/:userID/pins/:pinID', function(req, res) {
       console.log(err);
     });
 });
+
 
 // Updates a pin description
 app.put('/api/users/:userID/pins/:pinID', function(req, res) {
