@@ -126,9 +126,9 @@ app.post('/api/users', function(req, res) {
           }) RETURN n.firstName', {
             firstNameParam: firstName, 
             lastNameParam: lastName, 
-            emailParam:email, 
-            photoParam:photoUrl, 
-            idParam:uniqueID
+            emailParam: email, 
+            photoParam: photoUrl, 
+            idParam: uniqueID
           })
           .then(result => {
             console.log('successfully posted: ', result);
@@ -290,7 +290,9 @@ app.put('/api/users/:userID/pins/:pinID', function(req, res) {
 });
 
 app.post('/upload', upload.single('file'), (req, res, next) => {
-  res.json(req.file)
+  res.json(req.file);
 });
 
+
 exports.app = app;
+
