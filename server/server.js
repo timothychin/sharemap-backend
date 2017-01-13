@@ -272,7 +272,7 @@ app.get('/api/users', function(req, res) {
       res.send(result.records.map(record => {
         return record._fields[0].properties;
       }));
-    session.close();
+      session.close();
     })
     .catch(err => {
       console.log('*** ERROR ***');
@@ -497,7 +497,7 @@ app.delete('/api/users/:userID', function(req, res) {
  *             *
  * * * * * * * */
 
-// Returns with JSOn of all a user's pins
+// Returns with JSON of all a user's pins
 app.get('/api/users/:userID/pins', function(req, res) {
   var userID = req.params.userID;
 
@@ -545,6 +545,7 @@ app.post('/api/users/:userID/pins', function(req, res) {
   let createdAt = JSON.stringify(new Date());
   let userID = req.params.userID;
   let category = req.body.category;
+  let privacy = req.body.privacy;
   let likes = 0;
 
   session
@@ -555,8 +556,10 @@ app.post('/api/users/:userID/pins', function(req, res) {
         mediaUrl: {mediaUrlParam},\
         description: {descriptionParam},\
         createdAt: {createdAtParam},\
+        userID: {userIDParam},\
         category: {categoryParam},\
-        userID: {userIDParam}\
+        privacy: {privacyParam},\
+        likes: {likesParam}\
       }) MERGE (a)<-[:PINNED]-(n)\
          RETURN a.description', 
     { //:User {id: {userIDParam}}
@@ -564,10 +567,11 @@ app.post('/api/users/:userID/pins', function(req, res) {
       locationParam: location,
       mediaUrlParam: mediaUrl,
       descriptionParam: description,
-      categoryParam: category,
       createdAtParam: createdAt,
       userIDParam: userID,
-      likesParam = likes
+      categoryParam: category,
+      privacyParam: privacy,
+      likesParam: likes
     })
     .then(result => {
       session
