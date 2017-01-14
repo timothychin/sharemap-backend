@@ -262,8 +262,7 @@ app.get('/api/users', function(req, res) {
           session.close();
         })
       .catch(err => {
-        console.log('*** ERROR ***');
-        console.log(err);
+        console.log('ERROR', err);
       });
     }
   } else {
@@ -274,8 +273,7 @@ app.get('/api/users', function(req, res) {
       session.close();
     })
     .catch(err => {
-      console.log('*** ERROR ***');
-      console.log(err);
+      console.log('ERROR', err);
     });
   }
 });
@@ -296,9 +294,9 @@ app.get('/api/users/:userID', function(req, res) {
       }));
       session.close();
     })
-    .catch(error => {
-      console.log('***ERROR***');
-      console.log(error);
+
+    .catch(err => {
+      console.log('ERROR', err);
       session.close();
     });
 });
@@ -343,8 +341,8 @@ app.post('/api/users/:userID/friendships', function(req, res) {
         res.status(201).send('Friendship created');
         session.close();
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log('ERROR', err);
         session.close();
       });
     } else {
@@ -403,7 +401,7 @@ app.post('/api/users', function(req, res) {
           .catch(err => {
             session.close();
             console.log('*** ERROR ***');
-            console.log(err);
+            console.log('ERROR', err);
           });
       } else {
         res.status(400).send('User already exists');
@@ -431,6 +429,7 @@ app.put('/api/users/:userID/', function(req, res) {
     .catch(err => {
       console.error('PUT: /api/users/:userID: **ERROR**');
       console.log(err);
+
     });
 });
 
@@ -486,7 +485,7 @@ app.delete('/api/users/:userID', function(req, res) {
       session.close();
     })
     .catch(err => {
-      console.log(err);
+      console.log('ERROR', err);
     });
 });
 
@@ -506,12 +505,12 @@ app.get('/api/users/:userID/pins/private', function(req, res) {
           RETURN a',
     { userIDParam: userID })
     .then(result => {
-      res.status(200).send( result);
+      res.status(200).send({result});
       session.close();
     })
     .catch(err => {
       res.status(404);
-      console.log(err);
+      console.log('ERROR', err);
       session.close();
     });
 });
@@ -534,12 +533,12 @@ app.get('/api/users/:userID/pins/public', function(req, res) {
       publicParam: 'public'
     })    
     .then(result => {
-      res.status(200).send(result);
+      res.status(200).send({result});
       session.close();
     })
     .catch(err => {
       res.status(404);
-      console.log(err);
+      console.log('ERROR', err);
       session.close();
     });
 });
@@ -559,7 +558,7 @@ app.get('/api/users/:userID/pins', function(req, res) {
     })
     .catch(err => {
 
-      console.log(err);
+      console.log('ERROR', err);
     });
 });
 
@@ -580,7 +579,7 @@ app.get('/api/users/:userID/pins/:pinID', function(req, res) {
 
     })
     .catch(err => {
-      console.log(err);
+      console.log('ERROR', err);
     });
 }); 
 
@@ -631,9 +630,8 @@ app.post('/api/users/:userID/pins', function(req, res) {
       })
     })
     .catch(err => {
+      console.log('ERROR', err);
       session.close();
-      console.log('*** ERROR ***');
-      console.log(err);
     });
 });
 
@@ -652,7 +650,7 @@ app.delete('/api/users/:userID/pins/:pinID', function(req, res) {
       session.close();
     })
     .catch(err => {
-      console.log(err);
+      console.log('ERROR', err);
     });
 });
 
@@ -672,7 +670,7 @@ app.put('/api/users/:userID/pins/:pinID', function(req, res) {
       session.close();
     })
     .catch(err => {
-      console.log(err);
+      console.log('ERROR', err);
     });
 });
 
